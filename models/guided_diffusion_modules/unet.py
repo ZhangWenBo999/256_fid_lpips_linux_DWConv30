@@ -13,7 +13,7 @@ from .nn import (
     gamma_embedding
 )
 
-from module_test.LDConv_2D_MSFF import *
+from module_test.DepthwiseSeparableConv import *
 
 class SiLU(nn.Module):
     def forward(self, x):
@@ -132,7 +132,8 @@ class ResBlock(EmbedBlock):
         self.in_layers = nn.Sequential(
             normalization(channels),
             SiLU(),
-            nn.Conv2d(channels, self.out_channel, 3, padding=1),
+            # nn.Conv2d(channels, self.out_channel, 3, padding=1),
+            DepthwiseSeparableConv2d(channels, self.out_channel, 3)
             # LDConv_MultiScale(channels, self.out_channel, num_param=3),
         )
 
