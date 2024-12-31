@@ -132,8 +132,8 @@ class ResBlock(EmbedBlock):
         self.in_layers = nn.Sequential(
             normalization(channels),
             SiLU(),
-            # nn.Conv2d(channels, self.out_channel, 3, padding=1),
-            DepthwiseSeparableConv2d(channels, self.out_channel, 3)
+            nn.Conv2d(channels, self.out_channel, 3, padding=1),
+            # DepthwiseSeparableConv2d(channels, self.out_channel, 3)
             # LDConv_MultiScale(channels, self.out_channel, num_param=3),
         )
 
@@ -160,7 +160,8 @@ class ResBlock(EmbedBlock):
             SiLU(),
             nn.Dropout(p=dropout),
             zero_module(
-                nn.Conv2d(self.out_channel, self.out_channel, 3, padding=1)
+                # nn.Conv2d(self.out_channel, self.out_channel, 3, padding=1)
+                DepthwiseSeparableConv2d(self.out_channel, self.out_channel, 3)
                 # LDConv_MultiScale(self.out_channel, self.out_channel, num_param=3)
             ),
         )
